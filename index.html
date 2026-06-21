@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🐰 경주 여행 음식 설문 🍡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ffd1e3;
+    --pink-deep:#ff8fb6;
+    --cream:#fff7ee;
+    --mint:#cdeede;
+    --lav:#e7dcff;
+    --text:#5a4a52;
+    --shadow:0 10px 30px rgba(255,143,182,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Gaegu', system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 10% 10%, #ffe6f1 0, transparent 40%),
+      radial-gradient(circle at 90% 20%, #e3f6ee 0, transparent 40%),
+      radial-gradient(circle at 50% 90%, #efe7ff 0, transparent 45%),
+      var(--cream);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow-x:hidden;
+  }
+  /* 둥둥 떠다니는 배경 이모지 */
+  .floaty{position:fixed;font-size:28px;opacity:.35;animation:float 9s ease-in-out infinite;pointer-events:none;z-index:0;}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-8deg);}50%{transform:translateY(-26px) rotate(8deg);}}
+
+  .card{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:480px;
+    background:#fffdfb;
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    padding:34px 28px 30px;
+    border:3px solid #ffe1ec;
+  }
+
+  .progress-wrap{height:14px;background:#ffe7f0;border-radius:20px;overflow:hidden;margin-bottom:22px;}
+  .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--pink-deep),#ffb6cf);border-radius:20px;transition:width .4s ease;}
+
+  .step-label{font-family:'Jua';font-size:14px;color:var(--pink-deep);text-align:center;margin-bottom:6px;letter-spacing:1px;}
+
+  h1{font-family:'Jua';font-size:26px;line-height:1.35;text-align:center;margin-bottom:8px;color:#ff7aa8;}
+  .q-emoji{font-size:46px;text-align:center;display:block;margin-bottom:10px;}
+  .q-text{font-family:'Jua';font-size:21px;text-align:center;line-height:1.5;margin-bottom:22px;min-height:60px;}
+
+  .options{display:flex;flex-direction:column;gap:12px;}
+  .opt{
+    font-family:'Gaegu';font-weight:700;font-size:19px;
+    background:#fff;border:2.5px solid #ffe1ec;border-radius:18px;
+    padding:14px 16px;cursor:pointer;transition:.15s;text-align:left;
+    display:flex;align-items:center;gap:10px;color:var(--text);
+  }
+  .opt:hover{transform:translateY(-2px) scale(1.01);border-color:var(--pink-deep);background:#fff5f9;box-shadow:0 6px 16px rgba(255,143,182,.2);}
+  .opt:active{transform:scale(.98);}
+  .opt .em{font-size:24px;}
+
+  /* 사랑 점수 (별점) */
+  .love-stars{display:flex;justify-content:center;gap:8px;margin:8px 0 4px;}
+  .star{font-size:42px;cursor:pointer;filter:grayscale(1);opacity:.45;transition:.15s;}
+  .star:hover, .star.lit{filter:grayscale(0);opacity:1;transform:scale(1.18);}
+  .love-hint{text-align:center;font-size:16px;color:#b89aa6;margin-top:6px;height:22px;}
+
+  .btn{
+    display:block;width:100%;margin-top:18px;
+    font-family:'Jua';font-size:19px;color:#fff;
+    background:linear-gradient(90deg,var(--pink-deep),#ffa9c6);
+    border:none;border-radius:18px;padding:14px;cursor:pointer;
+    box-shadow:0 8px 18px rgba(255,143,182,.4);transition:.15s;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+  /* 결과 화면 */
+  .hidden{display:none;}
+  .result{text-align:center;}
+  .result h2{font-family:'Jua';font-size:25px;color:#ff7aa8;margin-bottom:10px;line-height:1.4;}
+  .result p{font-size:18px;line-height:1.6;margin-bottom:16px;}
+  .gift-img{
+    width:100%;max-width:340px;border-radius:22px;border:4px solid #ffd6e6;
+    box-shadow:var(--shadow);margin:6px auto 14px;display:block;
+  }
+  .gift-placeholder{
+    width:100%;max-width:340px;aspect-ratio:1/1;margin:6px auto 14px;
+    border-radius:22px;border:4px dashed #ffb6cf;background:#fff3f8;
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    color:#d98bab;font-family:'Jua';font-size:16px;text-align:center;gap:8px;padding:16px;
+  }
+  .illus{margin:6px auto 10px;}
+  .illus svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+  .cap{font-family:'Jua';font-size:16px;color:#ff7aa8;margin-top:4px;}
+
+  .summary{
+    background:#fff6fa;border:2px dashed #ffcfe0;border-radius:16px;
+    padding:14px 16px;margin:14px 0;font-size:16px;text-align:left;line-height:1.7;
+  }
+  .summary b{color:#ff7aa8;}
+
+  /* 하트 컨페티 */
+  .confetti{position:fixed;top:-40px;font-size:24px;z-index:5;pointer-events:none;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0;}}
+
+  /* 5점 아닐 때 살짝 토라진 메시지 */
+  .pout{
+    background:#fff6fa;border:2px solid #ffd6e6;border-radius:16px;
+    padding:18px;font-size:18px;line-height:1.6;margin-top:8px;
+  }
+  .small{font-size:14px;color:#b89aa6;margin-top:14px;}
+</style>
+</head>
+<body>
+
+<!-- 배경 둥둥 이모지 -->
+<div class="floaty" style="top:8%;left:6%;animation-delay:0s">🐰</div>
+<div class="floaty" style="top:18%;right:8%;animation-delay:1.2s">🍡</div>
+<div class="floaty" style="bottom:14%;left:10%;animation-delay:2.1s">💗</div>
+<div class="floaty" style="bottom:10%;right:7%;animation-delay:.6s">🌸</div>
+<div class="floaty" style="top:46%;left:3%;animation-delay:1.7s">🥟</div>
+
+<div class="card">
+
+  <!-- 시작 화면 -->
+  <section id="start">
+    <span class="q-emoji">🐰🚗💨</span>
+    <h1>우리 둘이<br>경주 여행 계획 짜기!</h1>
+    <p style="text-align:center;font-size:18px;line-height:1.6;margin:14px 0 6px;">
+      자기랑 나랑 갈 경주 여행,<br>일정 같이 정해보자! 🗺️<br>
+      <span style="color:#b89aa6;font-size:15px;">질문 10개 + 마지막 비밀 질문 1개 💝</span>
+    </p>
+    <button class="btn" onclick="startQuiz()">시작하기 💕</button>
+  </section>
+
+  <!-- 퀴즈 화면 -->
+  <section id="quiz" class="hidden">
+    <div class="step-label" id="stepLabel">질문 1 / 10</div>
+    <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
+    <span class="q-emoji" id="qEmoji">🍜</span>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="options"></div>
+  </section>
+
+  <!-- 사랑 질문 화면 -->
+  <section id="loveStep" class="hidden">
+    <div class="step-label">마지막 비밀 질문 💝</div>
+    <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+    <span class="q-emoji">🥺💗</span>
+    <div class="q-text">자기야... 솔직하게!<br>나를 얼마나 사랑해? 🥰</div>
+    <div class="love-stars" id="stars"></div>
+    <div class="love-hint" id="loveHint">별을 눌러줘 ✨</div>
+    <button class="btn" id="loveBtn" disabled onclick="submitLove()">제출하기 💌</button>
+  </section>
+
+  <!-- 결과: 5점 (선물!) -->
+  <section id="resultGift" class="hidden result">
+    <h2>꺄아!! 5점이라니!! 💖<br>나도 자기 완전 사랑해!!</h2>
+
+    <!-- 미피 티셔츠 일러스트 -->
+    <div class="illus">
+      <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="미피 티셔츠">
+        <!-- 티셔츠 -->
+        <path d="M115 80 Q160 108 205 80 L232 70 L274 110 L246 146 L223 130 L223 252
+                 Q223 264 210 264 L110 264 Q97 264 97 252 L97 130 L74 146 L46 110
+                 L88 70 L115 80 Z"
+              fill="#ffd1e3" stroke="#3a3a3a" stroke-width="5" stroke-linejoin="round"/>
+        <!-- 옷깃 -->
+        <path d="M122 86 Q160 110 198 86" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+        <!-- 가슴에 미피 프린트 -->
+        <g>
+          <ellipse cx="146" cy="150" rx="10" ry="27" fill="#fff" stroke="#3a3a3a" stroke-width="4" transform="rotate(-10 146 150)"/>
+          <ellipse cx="174" cy="150" rx="10" ry="27" fill="#fff" stroke="#3a3a3a" stroke-width="4" transform="rotate(10 174 150)"/>
+          <circle cx="160" cy="192" r="32" fill="#fff" stroke="#3a3a3a" stroke-width="4"/>
+          <circle cx="149" cy="188" r="3" fill="#3a3a3a"/>
+          <circle cx="171" cy="188" r="3" fill="#3a3a3a"/>
+          <path d="M155 196 l5 6 5 -6" fill="none" stroke="#3a3a3a" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="143" cy="198" r="4.5" fill="#ffb9d2"/>
+          <circle cx="177" cy="198" r="4.5" fill="#ffb9d2"/>
+        </g>
+      </svg>
+      <div class="cap">🎁 미피 티셔츠</div>
+    </div>
+
+    <p>우리 경주 여행 일정 완성! 🗺️✨<br>이거 입고 같이 사진 찍자 📸<br>준비한 <b>미피 티셔츠</b> 선물이야 🥰</p>
+
+    <!-- 미피 패밀리 일러스트 -->
+    <div class="illus">
+      <svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="미피 패밀리">
+        <defs>
+          <symbol id="bunny" viewBox="0 0 100 130">
+            <ellipse cx="38" cy="30" rx="10" ry="28" fill="#fff" stroke="#3a3a3a" stroke-width="4" transform="rotate(-10 38 30)"/>
+            <ellipse cx="62" cy="30" rx="10" ry="28" fill="#fff" stroke="#3a3a3a" stroke-width="4" transform="rotate(10 62 30)"/>
+            <path d="M30 90 L70 90 Q80 90 80 102 L80 124 Q80 130 74 130 L26 130 Q20 130 20 124 L20 102 Q20 90 30 90 Z"
+                  fill="currentColor" stroke="#3a3a3a" stroke-width="4" stroke-linejoin="round"/>
+            <circle cx="50" cy="62" r="30" fill="#fff" stroke="#3a3a3a" stroke-width="4"/>
+            <circle cx="40" cy="58" r="3" fill="#3a3a3a"/>
+            <circle cx="60" cy="58" r="3" fill="#3a3a3a"/>
+            <path d="M45 64 L55 72 M55 64 L45 72" stroke="#3a3a3a" stroke-width="3.4" stroke-linecap="round"/>
+            <circle cx="34" cy="68" r="4.5" fill="#ffb9d2"/>
+            <circle cx="66" cy="68" r="4.5" fill="#ffb9d2"/>
+          </symbol>
+        </defs>
+        <use href="#bunny" x="-5"  y="48"  width="140" height="182" style="color:#aee0cf"/>
+        <use href="#bunny" x="110" y="61"  width="130" height="169" style="color:#ffc4da"/>
+        <use href="#bunny" x="235" y="94"  width="105" height="136" style="color:#ffe09a"/>
+        <use href="#bunny" x="335" y="116" width="88"  height="114" style="color:#d6c4ff"/>
+      </svg>
+      <div class="cap">🐰 미피 패밀리도 우리 응원해! 💕</div>
+    </div>
+    <div class="summary" id="summaryGift"></div>
+    <button class="btn" onclick="location.reload()">다시 해보기 🔄</button>
+    <div class="small">made with 💗 for my love</div>
+  </section>
+
+  <!-- 결과: 5점 아님 (귀엽게 다시 유도) -->
+  <section id="resultPout" class="hidden result">
+    <h2>음...? 🥺</h2>
+    <div class="pout" id="poutMsg"></div>
+    <button class="btn" onclick="backToLove()">다시 생각해볼게! 💕</button>
+    <div class="small">힌트: 정답은... 5점이야 😎</div>
+  </section>
+
+</div>
+
+<script>
+/* ====== 질문 데이터 (총 10개) ====== */
+const questions = [
+  { emoji:"🌸", tag:"여행 시즌", q:"우리 경주 언제 떠날까?",
+    opts:[["🌸","봄, 벚꽃 흩날릴 때"],["🌊","여름, 시원한 바람"],["🍁","가을, 단풍 가득"],["❄️","겨울, 고요한 경주"]] },
+  { emoji:"🚗", tag:"이동 수단", q:"경주까지 어떻게 갈까?",
+    opts:[["🚄","KTX 타고 빠르게"],["🚗","둘이 드라이브"],["🚌","버스 타고 도란도란"],["🚃","기차 감성 여행"]] },
+  { emoji:"🗓️", tag:"여행 기간", q:"며칠 코스로 다녀올까?",
+    opts:[["☀️","당일치기 알차게"],["🌙","1박 2일"],["🌙🌙","2박 3일 여유롭게"],["🧳","길게길게 3박 이상"]] },
+  { emoji:"📍", tag:"첫 코스", q:"도착해서 제일 먼저 갈 곳은?",
+    opts:[["🏯","불국사·석굴암"],["⭐","첨성대·대릉원"],["🌷","황리단길 구경"],["🏞️","보문관광단지"]] },
+  { emoji:"🏠", tag:"숙소", q:"우리 어떤 숙소에서 잘까?",
+    opts:[["🏯","한옥 감성 스테이"],["🏨","깔끔한 호텔"],["🛁","감성 풀빌라/펜션"],["🎒","아기자기 게하"]] },
+  { emoji:"🚲", tag:"낮 활동", q:"낮에 꼭 같이 하고 싶은 건?",
+    opts:[["🚲","자전거 타고 돌기"],["👘","한복 입고 사진"],["☕","카페 투어"],["🏛️","박물관·유적 탐방"]] },
+  { emoji:"📸", tag:"인생샷 장소", q:"같이 인생샷 남기고 싶은 곳은?",
+    opts:[["🌌","동궁과 월지 야경"],["⭐","첨성대 앞에서"],["🌳","대릉원 돌담길"],["🏯","황룡원 야경"]] },
+  { emoji:"🍽️", tag:"먹킷리스트", q:"경주에서 이건 꼭 먹자! 하나 고르면?",
+    opts:[["🍲","경주 쌈밥 한 상"],["🍞","황남빵"],["🥩","한우 구이"],["🪙","경주 십원빵"]] },
+  { emoji:"🌙", tag:"밤 일정", q:"저녁엔 뭐 하면서 보낼까?",
+    opts:[["🌃","야경 산책"],["🍶","분위기 한잔"],["🎬","숙소에서 영화"],["🚗","보문호수 드라이브"]] },
+  { emoji:"🎁", tag:"마무리", q:"여행 마지막 날 마무리는?",
+    opts:[["🛍️","황리단길 쇼핑"],["☕","카페에서 여유"],["🧸","기념품 사기"],["💕","아쉬워서 한 곳 더!"]] },
+];
+
+let current = 0;
+const answers = [];
+
+function startQuiz(){
+  document.getElementById('start').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const item = questions[current];
+  document.getElementById('stepLabel').textContent = `질문 ${current+1} / ${questions.length}`;
+  document.getElementById('bar').style.width = ((current)/questions.length*100) + '%';
+  document.getElementById('qEmoji').textContent = item.emoji;
+  document.getElementById('qText').textContent = item.q;
+
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  item.opts.forEach(([em, label])=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = `<span class="em">${em}</span> ${label}`;
+    b.onclick = ()=> choose(label);
+    box.appendChild(b);
+  });
+}
+
+function choose(label){
+  answers.push(label);
+  current++;
+  if(current < questions.length){
+    renderQuestion();
+  } else {
+    // 사랑 질문으로
+    document.getElementById('quiz').classList.add('hidden');
+    document.getElementById('loveStep').classList.remove('hidden');
+    buildStars();
+  }
+}
+
+/* ====== 별점 ====== */
+let loveScore = 0;
+function buildStars(){
+  const wrap = document.getElementById('stars');
+  wrap.innerHTML = '';
+  for(let i=1;i<=5;i++){
+    const s = document.createElement('span');
+    s.className='star';
+    s.textContent='⭐';
+    s.dataset.v=i;
+    s.onmouseover=()=>paint(i);
+    s.onmouseout=()=>paint(loveScore);
+    s.onclick=()=>{ loveScore=i; paint(i); afterPick(i); };
+    wrap.appendChild(s);
+  }
+}
+function paint(n){
+  document.querySelectorAll('.star').forEach(s=>{
+    s.classList.toggle('lit', Number(s.dataset.v)<=n);
+  });
+}
+function afterPick(n){
+  const hint=document.getElementById('loveHint');
+  const msgs={1:"엥... 1점..? 🥲",2:"2점..? 흠..🥺",3:"3점이라니!😳",4:"오 4점! 거의 다 왔어!",5:"5점!! 꺄아!! 💖"};
+  hint.textContent=msgs[n];
+  document.getElementById('loveBtn').disabled=false;
+}
+
+function submitLove(){
+  document.getElementById('loveStep').classList.add('hidden');
+  if(loveScore===5){
+    showGift();
+  } else {
+    showPout();
+  }
+}
+
+function backToLove(){
+  document.getElementById('resultPout').classList.add('hidden');
+  document.getElementById('loveStep').classList.remove('hidden');
+}
+
+/* ====== 결과: 선물 ====== */
+function showGift(){
+  document.getElementById('resultGift').classList.remove('hidden');
+  // 우리 여행 일정 요약
+  const sum=document.getElementById('summaryGift');
+  sum.innerHTML = `<b>🗓️ 우리 경주 여행 일정</b><br>` +
+    answers.map((a,i)=>`${i+1}. ${questions[i].tag} → ${a}`).join('<br>');
+  heartRain();
+}
+
+/* ====== 결과: 토라짐 ====== */
+function showPout(){
+  const el=document.getElementById('resultPout');
+  el.classList.remove('hidden');
+  const m={
+    1:"1점은 너무하잖아 😭<br>다시 한 번만 생각해줘...!",
+    2:"2점이라니 흑흑 🥲<br>나 그것밖에 안 돼?",
+    3:"3점도 좋지만... 🥺<br>우리 사이엔 부족한걸?",
+    4:"4점이면 거의 다 왔어! 💕<br>딱 하나만 더 올려줄래?"
+  };
+  document.getElementById('poutMsg').innerHTML = m[loveScore] || "다시 한 번 골라줄래? 💕";
+}
+
+/* ====== 하트 컨페티 ====== */
+function heartRain(){
+  const hearts=['💗','💖','💕','🐰','🌸','💝'];
+  for(let i=0;i<40;i++){
+    const h=document.createElement('div');
+    h.className='confetti';
+    h.textContent=hearts[i%hearts.length];
+    h.style.left=Math.random()*100+'vw';
+    h.style.animationDuration=(2+Math.random()*3)+'s';
+    h.style.animationDelay=(Math.random()*1.5)+'s';
+    h.style.fontSize=(18+Math.random()*22)+'px';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  }
+}
+</script>
+</body>
+</html>
