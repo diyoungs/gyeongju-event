@@ -6,7 +6,7 @@
 <title>🐰 우리 둘이 경주 여행 계획 💕</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&display=swap" rel="stylesheet">
 <style>
   :root{
     --gold:#c9a227;        /* 금관 금색 */
@@ -22,7 +22,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    font-family:'Gaegu', system-ui, sans-serif;
+    font-family:'Gowun Batang', serif;
     background:
       radial-gradient(circle at 12% 10%, rgba(62,125,106,.20) 0, transparent 42%),
       radial-gradient(circle at 88% 18%, rgba(158,43,37,.16) 0, transparent 42%),
@@ -57,30 +57,30 @@
   .progress-wrap{height:14px;background:#ece0c4;border-radius:20px;overflow:hidden;margin-bottom:22px;}
   .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--jade),var(--gold));border-radius:20px;transition:width .4s ease;}
 
-  .step-label{font-family:'Jua';font-size:14px;color:var(--red);text-align:center;margin-bottom:6px;letter-spacing:1px;}
+  .step-label{font-family:'Nanum Brush Script', cursive;font-size:19px;color:var(--red);text-align:center;margin-bottom:6px;letter-spacing:1px;}
 
-  h1{font-family:'Jua';font-size:26px;line-height:1.35;text-align:center;margin-bottom:8px;color:var(--red);}
+  h1{font-family:'Nanum Brush Script', cursive;font-size:38px;line-height:1.3;text-align:center;margin-bottom:8px;color:var(--red);}
   .q-emoji{font-size:46px;text-align:center;display:block;margin-bottom:10px;}
-  .q-text{font-family:'Jua';font-size:21px;text-align:center;line-height:1.5;margin-bottom:22px;min-height:60px;color:var(--red-deep);}
+  .q-text{font-family:'Nanum Brush Script', cursive;font-size:30px;text-align:center;line-height:1.4;margin-bottom:22px;min-height:60px;color:var(--red-deep);}
 
   .day-badge{
-    display:inline-block;font-family:'Jua';font-size:14px;color:#fff7e2;letter-spacing:1px;
+    display:inline-block;font-family:'Nanum Brush Script', cursive;font-size:19px;color:#fff7e2;letter-spacing:1px;
     background:linear-gradient(90deg,var(--red),var(--gold-deep));padding:5px 16px;border-radius:8px;
     margin:0 auto 10px;box-shadow:0 4px 10px rgba(124,33,29,.28);
   }
   .time-chip{
-    display:inline-block;font-family:'Jua';font-size:17px;color:var(--red);
+    display:inline-block;font-family:'Gowun Batang', serif;font-weight:700;font-size:16px;color:var(--red);
     background:#faf2dd;border:2px solid var(--line);border-radius:10px;padding:4px 16px;margin-bottom:10px;
   }
   .desc{
-    font-family:'Gaegu';font-weight:700;font-size:18px;line-height:1.65;color:#5a4a33;
+    font-family:'Gowun Batang', serif;font-weight:700;font-size:18px;line-height:1.65;color:#5a4a33;
     background:#faf3e1;border:2px dashed var(--line);border-radius:14px;
     padding:16px 18px;margin-bottom:6px;
   }
 
   .options{display:flex;flex-direction:column;gap:12px;}
   .opt{
-    font-family:'Gaegu';font-weight:700;font-size:19px;
+    font-family:'Gowun Batang', serif;font-weight:700;font-size:19px;
     background:#fffdf5;border:2.5px solid var(--line);border-radius:14px;
     padding:14px 16px;cursor:pointer;transition:.15s;text-align:left;
     display:flex;align-items:center;gap:10px;color:var(--ink);
@@ -97,7 +97,7 @@
 
   .btn{
     display:block;width:100%;margin-top:18px;
-    font-family:'Jua';font-size:19px;color:#fff7e2;letter-spacing:.5px;
+    font-family:'Gowun Batang', serif;font-weight:700;font-size:19px;color:#fff7e2;letter-spacing:.5px;
     background:linear-gradient(135deg,var(--red),var(--gold));
     border:none;border-radius:14px;padding:14px;cursor:pointer;
     box-shadow:0 8px 18px rgba(124,33,29,.32);transition:.15s;
@@ -108,7 +108,7 @@
   /* 결과 화면 */
   .hidden{display:none;}
   .result{text-align:center;}
-  .result h2{font-family:'Jua';font-size:25px;color:var(--red);margin-bottom:10px;line-height:1.4;}
+  .result h2{font-family:'Nanum Brush Script', cursive;font-size:34px;color:var(--red);margin-bottom:10px;line-height:1.35;}
   .result p{font-size:18px;line-height:1.6;margin-bottom:16px;}
   .gift-img{
     width:100%;max-width:340px;border-radius:18px;border:4px solid var(--line);
@@ -118,11 +118,11 @@
     width:100%;max-width:340px;aspect-ratio:1/1;margin:6px auto 14px;
     border-radius:18px;border:4px dashed var(--gold);background:#faf3e1;
     display:flex;align-items:center;justify-content:center;flex-direction:column;
-    color:var(--gold-deep);font-family:'Jua';font-size:16px;text-align:center;gap:8px;padding:16px;
+    color:var(--gold-deep);font-family:'Nanum Brush Script', cursive;font-size:16px;text-align:center;gap:8px;padding:16px;
   }
   .illus{margin:6px auto 10px;}
   .illus svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
-  .cap{font-family:'Jua';font-size:16px;color:var(--red);margin-top:4px;}
+  .cap{font-family:'Nanum Brush Script', cursive;font-size:21px;color:var(--red);margin-top:4px;}
 
   .summary{
     background:#faf3e1;border:2px dashed var(--line);border-radius:14px;
