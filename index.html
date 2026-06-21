@@ -168,6 +168,7 @@
     <div style="text-align:center;"><span class="time-chip" id="timeChip">09:00</span></div>
     <div class="q-text" id="qText"></div>
     <div class="desc" id="qDesc"></div>
+    <div class="options" id="options" style="margin-top:4px;"></div>
     <button class="btn" id="nextBtn" onclick="nextStep()">다음 ➡️</button>
   </section>
 
@@ -244,10 +245,10 @@
 
   <!-- 결과: 5점 아님 (귀엽게 다시 유도) -->
   <section id="resultPout" class="hidden result">
-    <h2>음...? 🥺</h2>
+    <h2>앗! 이번 선물은...<br>🎁 꽝! 💥</h2>
     <div class="pout" id="poutMsg"></div>
-    <button class="btn" onclick="backToLove()">다시 생각해볼게! 💕</button>
-    <div class="small">힌트: 정답은... 5점이야 😎</div>
+    <button class="btn" onclick="backToLove()">다시 해보기 🔄</button>
+    <div class="small">힌트: 5점 나와야 미피가 나와요 😎🐰</div>
   </section>
 
 </div>
@@ -266,8 +267,14 @@ const itinerary = [
     desc:"9시 58분 기차 타고 출발~ 12시 11분 경주 도착! 가는 내내 수다 떨자 🥰" },
   { day:1, date:"6/22", time:"13:30", emoji:"🚌", title:"숙소 도착 (한옥스테이 화랑루)",
     desc:"경주역에서 버스 타고 약 50분, 동궁과 월지 근처 한옥 숙소 도착! 짐 살짝 풀고 출발 🏯" },
-  { day:1, date:"6/22", time:"13:40", emoji:"🍽️", title:"황리단길 점심",
-    desc:"숙소에서 10분! 황리단길에서 점심 🍴<br>(추천: 경주쌈밥·밀면·수제버거·파스타 중에~ 디저트는 십원빵🪙·황남빵🍞 필수!)" },
+  { day:1, date:"6/22", time:"13:40", emoji:"🍽️", title:"황리단길 점심 (자기가 골라줘!)",
+    desc:"숙소에서 10분! 황리단길에서 점심 🍴<br>자기가 먹고 싶은 맛집 골라줘~ 👇",
+    choices:[
+      ["🍲","경주 쌈밥 정식 (든든한 한 상)"],
+      ["🍜","경주 밀면 (시원하게 후루룩)"],
+      ["🍔","황리단길 수제버거 (요즘 핫한)"],
+      ["🍝","감성 브런치 파스타"],
+    ] },
   { day:1, date:"6/22", time:"15:00", emoji:"📸", title:"대릉원 & 천마총",
     desc:"대릉원에서 인생샷 찍고 🌳 천마총 구경, 황리단길 더 둘러보며 데이트하자 💕" },
   { day:1, date:"6/22", time:"18:30", emoji:"🍖", title:"황리단길 저녁",
@@ -281,8 +288,14 @@ const itinerary = [
     desc:"9시쯤 숙소에서 불국사로 고고! 🍃" },
   { day:2, date:"6/23", time:"11:00", emoji:"🏯", title:"불국사 & 석굴암",
     desc:"11시 도착~ 천천히 불국사 구경하고 석굴암까지 둘러보자 🛕" },
-  { day:2, date:"6/23", time:"13:00", emoji:"🍜", title:"점심",
-    desc:"구경 끝나고 맛있는 점심 한 끼! 뭐 먹을지 같이 고르자 😋" },
+  { day:2, date:"6/23", time:"13:00", emoji:"🍜", title:"점심 (자기가 골라줘!)",
+    desc:"불국사·석굴암 구경 끝! 점심 뭐 먹을까? 골라줘 👇",
+    choices:[
+      ["🥘","경주 한정식 / 쌈밥"],
+      ["🍲","뜨끈한 국밥 한 그릇"],
+      ["🍕","피자·파스타"],
+      ["🍗","바삭한 통닭"],
+    ] },
   { day:2, date:"6/23", time:"15:00", emoji:"🛵", title:"황리단길 스쿠터 투어",
     desc:"황리단길에서 스쿠터 빌려서 바람 맞으며 투어! 완전 재밌겠다 🛵💨" },
   { day:2, date:"6/23", time:"18:30", emoji:"🍝", title:"저녁",
@@ -313,8 +326,27 @@ function renderStep(){
   document.getElementById('timeChip').textContent = item.time;
   document.getElementById('qText').textContent = item.title;
   document.getElementById('qDesc').innerHTML = item.desc;
-  document.getElementById('nextBtn').textContent =
-    (current === itinerary.length-1) ? "여행 끝! 마지막 질문 💝" : "다음 ➡️";
+
+  const optBox = document.getElementById('options');
+  const nextBtn = document.getElementById('nextBtn');
+  optBox.innerHTML = '';
+  if(item.choices){
+    // 맛집 고르는 카드
+    nextBtn.style.display = 'none';
+    item.choices.forEach(([em, label])=>{
+      const b = document.createElement('button');
+      b.className = 'opt';
+      b.innerHTML = `<span class="em">${em}</span> ${label}`;
+      if(item.picked === label) b.style.borderColor = '#ff7aa8';
+      b.onclick = ()=>{ item.picked = label; nextStep(); };
+      optBox.appendChild(b);
+    });
+  } else {
+    // 그냥 보여주는 카드
+    nextBtn.style.display = 'block';
+    nextBtn.textContent =
+      (current === itinerary.length-1) ? "여행 끝! 마지막 질문 💝" : "다음 ➡️";
+  }
 }
 
 function nextStep(){
@@ -369,6 +401,11 @@ function submitLove(){
 function backToLove(){
   document.getElementById('resultPout').classList.add('hidden');
   document.getElementById('loveStep').classList.remove('hidden');
+  // 별점 초기화하고 다시 도전!
+  loveScore = 0;
+  buildStars();
+  document.getElementById('loveHint').textContent = "별을 눌러줘 ✨";
+  document.getElementById('loveBtn').disabled = true;
 }
 
 /* ====== 결과: 선물 ====== */
@@ -377,7 +414,11 @@ function showGift(){
   // 우리 여행 일정 요약
   const sum=document.getElementById('summaryGift');
   sum.innerHTML = `<b>🗓️ 우리 경주 여행 일정 (2박 3일)</b><br>` +
-    itinerary.filter(it=>it.day).map(it=>`<b>D${it.day}</b> ${it.time} ${it.emoji} ${it.title}`).join('<br>');
+    itinerary.filter(it=>it.day).map(it=>{
+      const title = it.choices ? it.title.replace(' (자기가 골라줘!)','') : it.title;
+      const base = `<b>D${it.day}</b> ${it.time} ${it.emoji} ${title}`;
+      return it.picked ? base + ` <span style="color:#ff7aa8">→ ${it.picked}</span>` : base;
+    }).join('<br>');
   heartRain();
 }
 
@@ -386,12 +427,12 @@ function showPout(){
   const el=document.getElementById('resultPout');
   el.classList.remove('hidden');
   const m={
-    1:"1점은 너무하잖아 😭<br>다시 한 번만 생각해줘...!",
-    2:"2점이라니 흑흑 🥲<br>나 그것밖에 안 돼?",
-    3:"3점도 좋지만... 🥺<br>우리 사이엔 부족한걸?",
-    4:"4점이면 거의 다 왔어! 💕<br>딱 하나만 더 올려줄래?"
+    1:"1점이라니 너무해 😭 선물은 <b>꽝</b>이야!<br>다시 해서 5점 나와야 미피 나와! 🐰",
+    2:"2점이라 아쉽게 <b>꽝</b> 🥲<br>다시 한 번만~ 5점이면 선물 공개! 💝",
+    3:"3점도 좋지만 이번 선물은 <b>꽝</b> 😝<br>다시 도전! 5점 나오면 미피가 나와 🐰",
+    4:"4점! 거의 다 왔는데 아쉽게 <b>꽝</b> 😣<br>딱 한 칸만 더~ 5점이면 선물 공개 💕"
   };
-  document.getElementById('poutMsg').innerHTML = m[loveScore] || "다시 한 번 골라줄래? 💕";
+  document.getElementById('poutMsg').innerHTML = m[loveScore] || "다시 골라줄래? 5점이면 선물 나와! 💕";
 }
 
 /* ====== 하트 컨페티 ====== */
