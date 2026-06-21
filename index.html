@@ -58,6 +58,21 @@
   .q-emoji{font-size:46px;text-align:center;display:block;margin-bottom:10px;}
   .q-text{font-family:'Jua';font-size:21px;text-align:center;line-height:1.5;margin-bottom:22px;min-height:60px;}
 
+  .day-badge{
+    display:inline-block;font-family:'Jua';font-size:14px;color:#fff;letter-spacing:1px;
+    background:linear-gradient(90deg,#ff9ec0,#ffbcd4);padding:5px 16px;border-radius:20px;
+    margin:0 auto 10px;box-shadow:0 4px 10px rgba(255,143,182,.3);
+  }
+  .time-chip{
+    display:inline-block;font-family:'Jua';font-size:17px;color:#ff7aa8;
+    background:#fff1f7;border:2px solid #ffd6e6;border-radius:14px;padding:4px 16px;margin-bottom:10px;
+  }
+  .desc{
+    font-family:'Gaegu';font-weight:700;font-size:18px;line-height:1.65;color:#7a6770;
+    background:#fff6fa;border:2px dashed #ffcfe0;border-radius:16px;
+    padding:16px 18px;margin-bottom:6px;
+  }
+
   .options{display:flex;flex-direction:column;gap:12px;}
   .opt{
     font-family:'Gaegu';font-weight:700;font-size:19px;
@@ -136,21 +151,24 @@
   <!-- 시작 화면 -->
   <section id="start">
     <span class="q-emoji">🐰🚗💨</span>
-    <h1>우리 둘이<br>경주 여행 계획 짜기!</h1>
+    <h1>우리 둘이<br>경주 여행 가자! 💕</h1>
     <p style="text-align:center;font-size:18px;line-height:1.6;margin:14px 0 6px;">
-      자기랑 나랑 갈 경주 여행,<br>일정 같이 정해보자! 🗺️<br>
-      <span style="color:#b89aa6;font-size:15px;">질문 10개 + 마지막 비밀 질문 1개 💝</span>
+      자기를 위해 내가 준비한<br>경주 여행 일정을 보여줄게! 🗺️<br>
+      <span style="color:#b89aa6;font-size:15px;">하나씩 넘겨봐 · 마지막에 비밀 선물 💝</span>
     </p>
-    <button class="btn" onclick="startQuiz()">시작하기 💕</button>
+    <button class="btn" onclick="startQuiz()">일정 보러가기 💕</button>
   </section>
 
   <!-- 퀴즈 화면 -->
   <section id="quiz" class="hidden">
-    <div class="step-label" id="stepLabel">질문 1 / 10</div>
+    <div class="step-label" id="stepLabel">일정 1 / 10</div>
     <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
-    <span class="q-emoji" id="qEmoji">🍜</span>
+    <div style="text-align:center;"><span class="day-badge" id="dayBadge">DAY 1</span></div>
+    <span class="q-emoji" id="qEmoji">🚄</span>
+    <div style="text-align:center;"><span class="time-chip" id="timeChip">09:00</span></div>
     <div class="q-text" id="qText"></div>
-    <div class="options" id="options"></div>
+    <div class="desc" id="qDesc"></div>
+    <button class="btn" id="nextBtn" onclick="nextStep()">다음 ➡️</button>
   </section>
 
   <!-- 사랑 질문 화면 -->
@@ -236,61 +254,56 @@
 
 <script>
 /* ====== 질문 데이터 (총 10개) ====== */
-const questions = [
-  { emoji:"🌸", tag:"여행 시즌", q:"우리 경주 언제 떠날까?",
-    opts:[["🌸","봄, 벚꽃 흩날릴 때"],["🌊","여름, 시원한 바람"],["🍁","가을, 단풍 가득"],["❄️","겨울, 고요한 경주"]] },
-  { emoji:"🚗", tag:"이동 수단", q:"경주까지 어떻게 갈까?",
-    opts:[["🚄","KTX 타고 빠르게"],["🚗","둘이 드라이브"],["🚌","버스 타고 도란도란"],["🚃","기차 감성 여행"]] },
-  { emoji:"🗓️", tag:"여행 기간", q:"며칠 코스로 다녀올까?",
-    opts:[["☀️","당일치기 알차게"],["🌙","1박 2일"],["🌙🌙","2박 3일 여유롭게"],["🧳","길게길게 3박 이상"]] },
-  { emoji:"📍", tag:"첫 코스", q:"도착해서 제일 먼저 갈 곳은?",
-    opts:[["🏯","불국사·석굴암"],["⭐","첨성대·대릉원"],["🌷","황리단길 구경"],["🏞️","보문관광단지"]] },
-  { emoji:"🏠", tag:"숙소", q:"우리 어떤 숙소에서 잘까?",
-    opts:[["🏯","한옥 감성 스테이"],["🏨","깔끔한 호텔"],["🛁","감성 풀빌라/펜션"],["🎒","아기자기 게하"]] },
-  { emoji:"🚲", tag:"낮 활동", q:"낮에 꼭 같이 하고 싶은 건?",
-    opts:[["🚲","자전거 타고 돌기"],["👘","한복 입고 사진"],["☕","카페 투어"],["🏛️","박물관·유적 탐방"]] },
-  { emoji:"📸", tag:"인생샷 장소", q:"같이 인생샷 남기고 싶은 곳은?",
-    opts:[["🌌","동궁과 월지 야경"],["⭐","첨성대 앞에서"],["🌳","대릉원 돌담길"],["🏯","황룡원 야경"]] },
-  { emoji:"🍽️", tag:"먹킷리스트", q:"경주에서 이건 꼭 먹자! 하나 고르면?",
-    opts:[["🍲","경주 쌈밥 한 상"],["🍞","황남빵"],["🥩","한우 구이"],["🪙","경주 십원빵"]] },
-  { emoji:"🌙", tag:"밤 일정", q:"저녁엔 뭐 하면서 보낼까?",
-    opts:[["🌃","야경 산책"],["🍶","분위기 한잔"],["🎬","숙소에서 영화"],["🚗","보문호수 드라이브"]] },
-  { emoji:"🎁", tag:"마무리", q:"여행 마지막 날 마무리는?",
-    opts:[["🛍️","황리단길 쇼핑"],["☕","카페에서 여유"],["🧸","기념품 사기"],["💕","아쉬워서 한 곳 더!"]] },
+/* 🐰 여기 일정을 너희 실제 계획으로 자유롭게 바꿔도 돼!
+   day(1·2), time(시간), emoji(이모지), title(제목), desc(설명) */
+const itinerary = [
+  { day:1, time:"09:00", emoji:"🚄", title:"드디어 출발!",
+    desc:"자기 데리러 가서 같이 경주로 출발~ 가는 길에 휴게소 간식도 사 먹자! 🍢" },
+  { day:1, time:"12:00", emoji:"🍚", title:"경주 도착 & 점심",
+    desc:"첫 끼는 경주 쌈밥 한 상! 든든하게 먹고 여행 시작하자 😋" },
+  { day:1, time:"14:00", emoji:"⭐", title:"첨성대 & 대릉원",
+    desc:"첨성대랑 대릉원 돌담길 산책 🌳 예쁜 데서 자기 사진 많이 찍어줄게 📸" },
+  { day:1, time:"16:00", emoji:"🌷", title:"황리단길 카페 투어",
+    desc:"황리단길 구경하면서 십원빵 먹고, 감성 카페에서 달달한 거 한 잔 ☕💕" },
+  { day:1, time:"18:00", emoji:"🏯", title:"한옥 스테이 체크인",
+    desc:"오늘 묵을 한옥 숙소 도착! 짐 풀고 잠깐 쉬었다 가자 🧳" },
+  { day:1, time:"20:00", emoji:"🌌", title:"동궁과 월지 야경",
+    desc:"오늘의 하이라이트! 물에 비치는 월지 야경 보면서 손잡고 산책하자 🌙✨" },
+  { day:2, time:"09:00", emoji:"🌅", title:"모닝 카페 & 조식",
+    desc:"둘째 날 아침은 여유롭게~ 따뜻한 커피랑 빵으로 시작 🥐" },
+  { day:2, time:"10:30", emoji:"🏯", title:"불국사 & 석굴암",
+    desc:"천년 고도 경주의 대표 코스! 같이 천천히 둘러보자 🍃" },
+  { day:2, time:"13:00", emoji:"🚗", title:"점심 & 보문호수 드라이브",
+    desc:"맛있는 점심 먹고 보문호수 한 바퀴 드라이브 🚙 노래 크게 틀고!" },
+  { day:2, time:"15:00", emoji:"💕", title:"마지막 카페에서 여유",
+    desc:"아쉬운 마음 담아 마지막 카페에서 쉬다가 집으로~ 다음 여행도 기대하자! 🥰" },
 ];
 
 let current = 0;
-const answers = [];
 
 function startQuiz(){
   document.getElementById('start').classList.add('hidden');
   document.getElementById('quiz').classList.remove('hidden');
-  renderQuestion();
+  renderStep();
 }
 
-function renderQuestion(){
-  const item = questions[current];
-  document.getElementById('stepLabel').textContent = `질문 ${current+1} / ${questions.length}`;
-  document.getElementById('bar').style.width = ((current)/questions.length*100) + '%';
+function renderStep(){
+  const item = itinerary[current];
+  document.getElementById('stepLabel').textContent = `일정 ${current+1} / ${itinerary.length}`;
+  document.getElementById('bar').style.width = ((current+1)/itinerary.length*100) + '%';
+  document.getElementById('dayBadge').textContent = `DAY ${item.day}`;
   document.getElementById('qEmoji').textContent = item.emoji;
-  document.getElementById('qText').textContent = item.q;
-
-  const box = document.getElementById('options');
-  box.innerHTML = '';
-  item.opts.forEach(([em, label])=>{
-    const b = document.createElement('button');
-    b.className = 'opt';
-    b.innerHTML = `<span class="em">${em}</span> ${label}`;
-    b.onclick = ()=> choose(label);
-    box.appendChild(b);
-  });
+  document.getElementById('timeChip').textContent = item.time;
+  document.getElementById('qText').textContent = item.title;
+  document.getElementById('qDesc').textContent = item.desc;
+  document.getElementById('nextBtn').textContent =
+    (current === itinerary.length-1) ? "여행 끝! 마지막 질문 💝" : "다음 ➡️";
 }
 
-function choose(label){
-  answers.push(label);
+function nextStep(){
   current++;
-  if(current < questions.length){
-    renderQuestion();
+  if(current < itinerary.length){
+    renderStep();
   } else {
     // 사랑 질문으로
     document.getElementById('quiz').classList.add('hidden');
@@ -347,7 +360,7 @@ function showGift(){
   // 우리 여행 일정 요약
   const sum=document.getElementById('summaryGift');
   sum.innerHTML = `<b>🗓️ 우리 경주 여행 일정</b><br>` +
-    answers.map((a,i)=>`${i+1}. ${questions[i].tag} → ${a}`).join('<br>');
+    itinerary.map(it=>`<b>D${it.day}</b> ${it.time} ${it.emoji} ${it.title}`).join('<br>');
   heartRain();
 }
 
