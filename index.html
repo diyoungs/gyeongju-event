@@ -9,23 +9,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&display=swap" rel="stylesheet">
 <style>
   :root{
-    --pink:#ffd1e3;
-    --pink-deep:#ff8fb6;
-    --cream:#fff7ee;
-    --mint:#cdeede;
-    --lav:#e7dcff;
-    --text:#5a4a52;
-    --shadow:0 10px 30px rgba(255,143,182,.25);
+    --gold:#c9a227;        /* 금관 금색 */
+    --gold-deep:#a07d18;
+    --red:#9e2b25;         /* 단청 적색 */
+    --red-deep:#7c211d;
+    --jade:#3e7d6a;        /* 단청 녹·청자 */
+    --ink:#3a2e23;         /* 먹빛 글자 */
+    --hanji:#f3e9d4;       /* 한지 바탕 */
+    --card:#fffdf5;
+    --line:#e0c98c;        /* 금빛 테두리 */
+    --shadow:0 12px 30px rgba(90,60,15,.22);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
     font-family:'Gaegu', system-ui, sans-serif;
     background:
-      radial-gradient(circle at 10% 10%, #ffe6f1 0, transparent 40%),
-      radial-gradient(circle at 90% 20%, #e3f6ee 0, transparent 40%),
-      radial-gradient(circle at 50% 90%, #efe7ff 0, transparent 45%),
-      var(--cream);
-    color:var(--text);
+      radial-gradient(circle at 12% 10%, rgba(62,125,106,.20) 0, transparent 42%),
+      radial-gradient(circle at 88% 18%, rgba(158,43,37,.16) 0, transparent 42%),
+      radial-gradient(circle at 50% 92%, rgba(201,162,39,.22) 0, transparent 46%),
+      var(--hanji);
+    color:var(--ink);
     min-height:100vh;
     display:flex;
     align-items:center;
@@ -34,7 +37,7 @@
     overflow-x:hidden;
   }
   /* 둥둥 떠다니는 배경 이모지 */
-  .floaty{position:fixed;font-size:28px;opacity:.35;animation:float 9s ease-in-out infinite;pointer-events:none;z-index:0;}
+  .floaty{position:fixed;font-size:30px;opacity:.3;animation:float 9s ease-in-out infinite;pointer-events:none;z-index:0;}
   @keyframes float{0%,100%{transform:translateY(0) rotate(-8deg);}50%{transform:translateY(-26px) rotate(8deg);}}
 
   .card{
@@ -42,45 +45,47 @@
     z-index:1;
     width:100%;
     max-width:480px;
-    background:#fffdfb;
-    border-radius:28px;
+    background:var(--card);
+    border-radius:24px;
     box-shadow:var(--shadow);
     padding:34px 28px 30px;
-    border:3px solid #ffe1ec;
+    border:2.5px solid var(--line);
+    outline:4px solid rgba(158,43,37,.10);
+    outline-offset:-12px;
   }
 
-  .progress-wrap{height:14px;background:#ffe7f0;border-radius:20px;overflow:hidden;margin-bottom:22px;}
-  .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--pink-deep),#ffb6cf);border-radius:20px;transition:width .4s ease;}
+  .progress-wrap{height:14px;background:#ece0c4;border-radius:20px;overflow:hidden;margin-bottom:22px;}
+  .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--jade),var(--gold));border-radius:20px;transition:width .4s ease;}
 
-  .step-label{font-family:'Jua';font-size:14px;color:var(--pink-deep);text-align:center;margin-bottom:6px;letter-spacing:1px;}
+  .step-label{font-family:'Jua';font-size:14px;color:var(--red);text-align:center;margin-bottom:6px;letter-spacing:1px;}
 
-  h1{font-family:'Jua';font-size:26px;line-height:1.35;text-align:center;margin-bottom:8px;color:#ff7aa8;}
+  h1{font-family:'Jua';font-size:26px;line-height:1.35;text-align:center;margin-bottom:8px;color:var(--red);}
   .q-emoji{font-size:46px;text-align:center;display:block;margin-bottom:10px;}
-  .q-text{font-family:'Jua';font-size:21px;text-align:center;line-height:1.5;margin-bottom:22px;min-height:60px;}
+  .q-text{font-family:'Jua';font-size:21px;text-align:center;line-height:1.5;margin-bottom:22px;min-height:60px;color:var(--red-deep);}
 
   .day-badge{
-    display:inline-block;font-family:'Jua';font-size:14px;color:#fff;letter-spacing:1px;
-    background:linear-gradient(90deg,#ff9ec0,#ffbcd4);padding:5px 16px;border-radius:20px;
-    margin:0 auto 10px;box-shadow:0 4px 10px rgba(255,143,182,.3);
+    display:inline-block;font-family:'Jua';font-size:14px;color:#fff7e2;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--red),var(--gold-deep));padding:5px 16px;border-radius:8px;
+    margin:0 auto 10px;box-shadow:0 4px 10px rgba(124,33,29,.28);
   }
   .time-chip{
-    display:inline-block;font-family:'Jua';font-size:17px;color:#ff7aa8;
-    background:#fff1f7;border:2px solid #ffd6e6;border-radius:14px;padding:4px 16px;margin-bottom:10px;
+    display:inline-block;font-family:'Jua';font-size:17px;color:var(--red);
+    background:#faf2dd;border:2px solid var(--line);border-radius:10px;padding:4px 16px;margin-bottom:10px;
   }
   .desc{
-    font-family:'Gaegu';font-weight:700;font-size:18px;line-height:1.65;color:#7a6770;
-    background:#fff6fa;border:2px dashed #ffcfe0;border-radius:16px;
+    font-family:'Gaegu';font-weight:700;font-size:18px;line-height:1.65;color:#5a4a33;
+    background:#faf3e1;border:2px dashed var(--line);border-radius:14px;
     padding:16px 18px;margin-bottom:6px;
   }
 
   .options{display:flex;flex-direction:column;gap:12px;}
   .opt{
     font-family:'Gaegu';font-weight:700;font-size:19px;
-    background:#fff;border:2.5px solid #ffe1ec;border-radius:18px;
+    background:#fffdf5;border:2.5px solid var(--line);border-radius:14px;
     padding:14px 16px;cursor:pointer;transition:.15s;text-align:left;
-    display:flex;align-items:center;gap:10px;color:var(--text);
+    display:flex;align-items:center;gap:10px;color:var(--ink);
   }
-  .opt:hover{transform:translateY(-2px) scale(1.01);border-color:var(--pink-deep);background:#fff5f9;box-shadow:0 6px 16px rgba(255,143,182,.2);}
+  .opt:hover{transform:translateY(-2px) scale(1.01);border-color:var(--red);background:#f8efd8;box-shadow:0 6px 16px rgba(158,43,37,.18);}
   .opt:active{transform:scale(.98);}
   .opt .em{font-size:24px;}
 
@@ -88,14 +93,14 @@
   .love-stars{display:flex;justify-content:center;gap:8px;margin:8px 0 4px;}
   .star{font-size:42px;cursor:pointer;filter:grayscale(1);opacity:.45;transition:.15s;}
   .star:hover, .star.lit{filter:grayscale(0);opacity:1;transform:scale(1.18);}
-  .love-hint{text-align:center;font-size:16px;color:#b89aa6;margin-top:6px;height:22px;}
+  .love-hint{text-align:center;font-size:16px;color:#9a8a64;margin-top:6px;height:22px;}
 
   .btn{
     display:block;width:100%;margin-top:18px;
-    font-family:'Jua';font-size:19px;color:#fff;
-    background:linear-gradient(90deg,var(--pink-deep),#ffa9c6);
-    border:none;border-radius:18px;padding:14px;cursor:pointer;
-    box-shadow:0 8px 18px rgba(255,143,182,.4);transition:.15s;
+    font-family:'Jua';font-size:19px;color:#fff7e2;letter-spacing:.5px;
+    background:linear-gradient(135deg,var(--red),var(--gold));
+    border:none;border-radius:14px;padding:14px;cursor:pointer;
+    box-shadow:0 8px 18px rgba(124,33,29,.32);transition:.15s;
   }
   .btn:hover{transform:translateY(-2px);}
   .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
@@ -103,48 +108,48 @@
   /* 결과 화면 */
   .hidden{display:none;}
   .result{text-align:center;}
-  .result h2{font-family:'Jua';font-size:25px;color:#ff7aa8;margin-bottom:10px;line-height:1.4;}
+  .result h2{font-family:'Jua';font-size:25px;color:var(--red);margin-bottom:10px;line-height:1.4;}
   .result p{font-size:18px;line-height:1.6;margin-bottom:16px;}
   .gift-img{
-    width:100%;max-width:340px;border-radius:22px;border:4px solid #ffd6e6;
+    width:100%;max-width:340px;border-radius:18px;border:4px solid var(--line);
     box-shadow:var(--shadow);margin:6px auto 14px;display:block;
   }
   .gift-placeholder{
     width:100%;max-width:340px;aspect-ratio:1/1;margin:6px auto 14px;
-    border-radius:22px;border:4px dashed #ffb6cf;background:#fff3f8;
+    border-radius:18px;border:4px dashed var(--gold);background:#faf3e1;
     display:flex;align-items:center;justify-content:center;flex-direction:column;
-    color:#d98bab;font-family:'Jua';font-size:16px;text-align:center;gap:8px;padding:16px;
+    color:var(--gold-deep);font-family:'Jua';font-size:16px;text-align:center;gap:8px;padding:16px;
   }
   .illus{margin:6px auto 10px;}
   .illus svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
-  .cap{font-family:'Jua';font-size:16px;color:#ff7aa8;margin-top:4px;}
+  .cap{font-family:'Jua';font-size:16px;color:var(--red);margin-top:4px;}
 
   .summary{
-    background:#fff6fa;border:2px dashed #ffcfe0;border-radius:16px;
+    background:#faf3e1;border:2px dashed var(--line);border-radius:14px;
     padding:14px 16px;margin:14px 0;font-size:16px;text-align:left;line-height:1.7;
   }
-  .summary b{color:#ff7aa8;}
+  .summary b{color:var(--red);}
 
-  /* 하트 컨페티 */
+  /* 컨페티 */
   .confetti{position:fixed;top:-40px;font-size:24px;z-index:5;pointer-events:none;animation:fall linear forwards;}
   @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0;}}
 
   /* 5점 아닐 때 살짝 토라진 메시지 */
   .pout{
-    background:#fff6fa;border:2px solid #ffd6e6;border-radius:16px;
+    background:#faf3e1;border:2px solid var(--line);border-radius:14px;
     padding:18px;font-size:18px;line-height:1.6;margin-top:8px;
   }
-  .small{font-size:14px;color:#b89aa6;margin-top:14px;}
+  .small{font-size:14px;color:#9a8a64;margin-top:14px;}
 </style>
 </head>
 <body>
 
 <!-- 배경 둥둥 이모지 -->
-<div class="floaty" style="top:8%;left:6%;animation-delay:0s">🐰</div>
-<div class="floaty" style="top:18%;right:8%;animation-delay:1.2s">🍡</div>
-<div class="floaty" style="bottom:14%;left:10%;animation-delay:2.1s">💗</div>
+<div class="floaty" style="top:8%;left:6%;animation-delay:0s">🏯</div>
+<div class="floaty" style="top:18%;right:8%;animation-delay:1.2s">👑</div>
+<div class="floaty" style="bottom:14%;left:10%;animation-delay:2.1s">🪷</div>
 <div class="floaty" style="bottom:10%;right:7%;animation-delay:.6s">🌸</div>
-<div class="floaty" style="top:46%;left:3%;animation-delay:1.7s">🥟</div>
+<div class="floaty" style="top:46%;left:3%;animation-delay:1.7s">🐰</div>
 
 <div class="card">
 
@@ -154,7 +159,7 @@
     <h1>우리 둘이<br>경주 여행 가자! 💕</h1>
     <p style="text-align:center;font-size:18px;line-height:1.6;margin:14px 0 6px;">
       자기를 위해 내가 준비한<br>경주 2박 3일 일정을 보여줄게! 🗺️<br>
-      <span style="color:#b89aa6;font-size:15px;">6/22~24 · 하나씩 넘겨봐 · 마지막에 비밀 선물 💝</span>
+      <span style="color:#9a8a64;font-size:15px;">6/22~24 · 하나씩 넘겨봐 · 마지막에 비밀 선물 💝</span>
     </p>
     <button class="btn" onclick="startQuiz()">일정 보러가기 💕</button>
   </section>
@@ -267,8 +272,8 @@ const itinerary = [
     desc:"9시 58분 기차 타고 출발~ 12시 11분 경주 도착! 가는 내내 수다 떨자 🥰" },
   { day:1, date:"6/22", time:"13:30", emoji:"🚌", title:"숙소 도착 (한옥스테이 화랑루)",
     desc:"경주역에서 버스 타고 약 50분, 동궁과 월지 근처 한옥 숙소 도착! 짐 살짝 풀고 출발 🏯" },
-  { day:1, date:"6/22", time:"13:40", emoji:"🍽️", title:"황리단길 점심 (자기가 골라줘!)",
-    desc:"숙소에서 10분! 황리단길에서 점심 🍴<br>자기가 먹고 싶은 맛집 골라줘~ 👇",
+  { day:1, date:"6/22", time:"13:40", emoji:"🍽️", title:"황리단길 점심 (희제가 골라줘!)",
+    desc:"숙소에서 10분! 황리단길에서 점심 🍴<br>희제가 먹고 싶은 맛집 골라줘~ 👇",
     choices:[
       ["🍲","경주 쌈밥 정식 (든든한 한 상)"],
       ["🍜","경주 밀면 (시원하게 후루룩)"],
@@ -277,7 +282,7 @@ const itinerary = [
     ] },
   { day:1, date:"6/22", time:"15:00", emoji:"📸", title:"대릉원 & 천마총",
     desc:"대릉원에서 인생샷 찍고 🌳 천마총 구경, 황리단길 더 둘러보며 데이트하자 💕" },
-  { day:1, date:"6/22", time:"18:30", emoji:"🍖", title:"황리단길 저녁 (자기가 골라줘!)",
+  { day:1, date:"6/22", time:"18:30", emoji:"🍖", title:"황리단길 저녁 (희제가 골라줘!)",
     desc:"구경하다 출출해지면 황리단길에서 저녁! 뭐 먹을래? 👇",
     choices:[
       ["🍖","경주 한우 구이"],
@@ -294,7 +299,7 @@ const itinerary = [
     desc:"9시쯤 숙소에서 불국사로 고고! 🍃" },
   { day:2, date:"6/23", time:"11:00", emoji:"🏯", title:"불국사 & 석굴암",
     desc:"11시 도착~ 천천히 불국사 구경하고 석굴암까지 둘러보자 🛕" },
-  { day:2, date:"6/23", time:"13:00", emoji:"🍜", title:"점심 (자기가 골라줘!)",
+  { day:2, date:"6/23", time:"13:00", emoji:"🍜", title:"점심 (희제가 골라줘!)",
     desc:"불국사·석굴암 구경 끝! 점심 뭐 먹을까? 골라줘 👇",
     choices:[
       ["🥘","경주 한정식 / 쌈밥"],
@@ -304,7 +309,7 @@ const itinerary = [
     ] },
   { day:2, date:"6/23", time:"15:00", emoji:"🛵", title:"황리단길 스쿠터 투어",
     desc:"황리단길에서 스쿠터 빌려서 바람 맞으며 투어! 완전 재밌겠다 🛵💨" },
-  { day:2, date:"6/23", time:"18:30", emoji:"🍝", title:"저녁 (자기가 골라줘!)",
+  { day:2, date:"6/23", time:"18:30", emoji:"🍝", title:"저녁 (희제가 골라줘!)",
     desc:"둘째 날도 맛있는 저녁 데이트 🍽️ 골라줘 👇",
     choices:[
       ["🥩","고기 구이 (삼겹·한우)"],
@@ -312,7 +317,7 @@ const itinerary = [
       ["🍤","해물·회"],
       ["🍕","가볍게 양식"],
     ] },
-  { day:2, date:"6/23", time:"20:30", emoji:"🎬", title:"카페 데이트 (자기가 골라줘!)",
+  { day:2, date:"6/23", time:"20:30", emoji:"🎬", title:"카페 데이트 (희제가 골라줘!)",
     desc:"하루 마무리, 어떤 카페에서 놀까? ☕🎬 골라줘 👇",
     choices:[
       ["🎬","프라이빗 영화 카페"],
@@ -355,7 +360,7 @@ function renderStep(){
       const b = document.createElement('button');
       b.className = 'opt';
       b.innerHTML = `<span class="em">${em}</span> ${label}`;
-      if(item.picked === label) b.style.borderColor = '#ff7aa8';
+      if(item.picked === label) b.style.borderColor = '#9e2b25';
       b.onclick = ()=>{ item.picked = label; nextStep(); };
       optBox.appendChild(b);
     });
@@ -433,9 +438,9 @@ function showGift(){
   const sum=document.getElementById('summaryGift');
   sum.innerHTML = `<b>🗓️ 우리 경주 여행 일정 (2박 3일)</b><br>` +
     itinerary.filter(it=>it.day).map(it=>{
-      const title = it.choices ? it.title.replace(' (자기가 골라줘!)','') : it.title;
+      const title = it.choices ? it.title.replace(' (희제가 골라줘!)','') : it.title;
       const base = `<b>D${it.day}</b> ${it.time} ${it.emoji} ${title}`;
-      return it.picked ? base + ` <span style="color:#ff7aa8">→ ${it.picked}</span>` : base;
+      return it.picked ? base + ` <span style="color:#9e2b25">→ ${it.picked}</span>` : base;
     }).join('<br>');
   heartRain();
 }
@@ -455,7 +460,7 @@ function showPout(){
 
 /* ====== 하트 컨페티 ====== */
 function heartRain(){
-  const hearts=['💗','💖','💕','🐰','🌸','💝'];
+  const hearts=['💛','✨','🌸','🐰','👑','🪷'];
   for(let i=0;i<40;i++){
     const h=document.createElement('div');
     h.className='confetti';
